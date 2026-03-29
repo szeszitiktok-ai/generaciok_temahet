@@ -1,0 +1,1650 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ugyanaz Másképp? – Generációk a Digitális Korban</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── RESET & BASE ──────────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --cream: #f5f0e8;
+        --ink: #1a1612;
+        --sepia: #8b6f47;
+        --gold: #c9a84c;
+        --now: #2c5f8a;
+        --now-lt: #e8f2f9;
+        --then: #7a4f3a;
+        --then-lt: #fdf0e8;
+        --both: #3d6b4f;
+        --both-lt: #eaf3ec;
+
+        --radius: 4px;
+        --gap: clamp(1rem, 3vw, 2rem);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* ── NOISE OVERLAY ─────────────────────────────────────────── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        background-size: 128px 128px;
+      }
+
+      /* ── HEADER / HERO ─────────────────────────────────────────── */
+      header {
+        position: relative;
+        padding: clamp(3rem, 8vw, 6rem) var(--gap) clamp(2rem, 5vw, 4rem);
+        text-align: center;
+        border-bottom: 1.5px solid var(--sepia);
+        overflow: hidden;
+      }
+
+      .header-deco {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .header-deco::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        left: -60px;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(201, 168, 76, 0.15) 0%,
+          transparent 70%
+        );
+      }
+      .header-deco::after {
+        content: "";
+        position: absolute;
+        bottom: -40px;
+        right: -40px;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(44, 95, 138, 0.12) 0%,
+          transparent 70%
+        );
+      }
+
+      .eyebrow {
+        position: relative;
+        z-index: 1;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--sepia);
+        margin-bottom: 0.75rem;
+      }
+
+      h1 {
+        position: relative;
+        z-index: 1;
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 6vw, 4.5rem);
+        font-weight: 900;
+        line-height: 1.05;
+        max-width: 820px;
+        margin: 0 auto 0.5rem;
+      }
+      h1 em {
+        font-style: italic;
+        color: var(--sepia);
+      }
+
+      .subtitle {
+        position: relative;
+        z-index: 1;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        color: var(--sepia);
+        max-width: 520px;
+        margin: 0 auto 1.5rem;
+      }
+
+      /* divider rule with dots */
+      .rule {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin: 1.5rem auto;
+        max-width: 300px;
+      }
+      .rule span {
+        flex: 1;
+        height: 1px;
+        background: var(--sepia);
+        opacity: 0.4;
+      }
+      .rule i {
+        width: 6px;
+        height: 6px;
+        background: var(--gold);
+        border-radius: 50%;
+        display: block;
+      }
+
+      .header-logo {
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
+        width: clamp(70px, 10vw, 110px);
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+        transition: transform 0.3s ease;
+      }
+      .header-logo:hover {
+        transform: rotate(5deg) scale(1.05);
+      }
+
+      /* ── STICKY NAV ────────────────────────────────────────────── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(245, 240, 232, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(139, 111, 71, 0.25);
+      }
+
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 var(--gap);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      /* ROW 1 – életterület */
+      .nav-row {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .nav-row::-webkit-scrollbar {
+        display: none;
+      }
+      .nav-row + .nav-row {
+        border-top: 1px solid rgba(139, 111, 71, 0.15);
+      }
+
+      .nav-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--sepia);
+        white-space: nowrap;
+        padding-right: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      .nav-btn {
+        background: none;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        padding: 0.3rem 0.8rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--ink);
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .nav-btn:hover {
+        background: rgba(139, 111, 71, 0.1);
+        border-color: var(--sepia);
+      }
+
+      /* era buttons coloured */
+      .era-btn[data-era="regen"].active,
+      .era-btn[data-era="regen"]:hover {
+        background: var(--then-lt);
+        border-color: var(--then);
+        color: var(--then);
+      }
+      .era-btn[data-era="most"].active,
+      .era-btn[data-era="most"]:hover {
+        background: var(--now-lt);
+        border-color: var(--now);
+        color: var(--now);
+      }
+      .era-btn[data-era="mindketto"].active,
+      .era-btn[data-era="mindketto"]:hover {
+        background: var(--both-lt);
+        border-color: var(--both);
+        color: var(--both);
+      }
+
+      /* topic buttons */
+      .topic-btn.active {
+        background: var(--ink);
+        color: var(--cream);
+        border-color: var(--ink);
+      }
+
+      /* ── MAIN GALLERY ──────────────────────────────────────────── */
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: var(--gap);
+      }
+
+      /* section header */
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(139, 111, 71, 0.2);
+      }
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        font-weight: 700;
+      }
+      .era-badge {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.25rem 0.6rem;
+        border-radius: 20px;
+        font-weight: 500;
+      }
+      .era-badge.regen {
+        background: var(--then-lt);
+        color: var(--then);
+      }
+      .era-badge.most {
+        background: var(--now-lt);
+        color: var(--now);
+      }
+      .era-badge.mindketto {
+        background: var(--both-lt);
+        color: var(--both);
+      }
+
+      /* category group */
+      .category-block {
+        margin-bottom: 3.5rem;
+        animation: fadeUp 0.45s ease both;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .category-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--sepia);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .category-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.3;
+      }
+
+      /* ── GRID ──────────────────────────────────────────────────── */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+        gap: 1rem;
+      }
+
+      /* ── CARD ──────────────────────────────────────────────────── */
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow:
+          0 1px 4px rgba(0, 0, 0, 0.06),
+          0 4px 16px rgba(0, 0, 0, 0.04);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+        cursor: pointer;
+      }
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow:
+          0 4px 12px rgba(0, 0, 0, 0.1),
+          0 12px 32px rgba(0, 0, 0, 0.07);
+      }
+
+      /* placeholder media */
+      .card-media {
+        aspect-ratio: 4/3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-media svg {
+        opacity: 0.45;
+        width: 32px;
+        height: 32px;
+      }
+      .card-media span {
+        opacity: 0.55;
+      }
+      .card-media video,
+      .card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* era-coloured placeholder bg */
+      .card[data-era="regen"] .card-media {
+        background: var(--then-lt);
+        color: var(--then);
+      }
+      .card[data-era="most"] .card-media {
+        background: var(--now-lt);
+        color: var(--now);
+      }
+      .card[data-era="mindketto"] .card-media {
+        background: var(--both-lt);
+        color: var(--both);
+      }
+
+      /* card border */
+      .card[data-era="regen"] {
+        /* border: 4px solid var(--then); */
+        box-shadow: 3px 3px 3px var(--then);
+      }
+      .card[data-era="most"] {
+        /* border: 4px solid var(--now); */
+        box-shadow: 3px 3px 3px var(--now);
+      }
+      .card[data-era="mindketto"] {
+        /* border: 4px solid var(--both); */
+        box-shadow: 3px 3px 3px var(--both);
+      }
+
+      /* subtle diagonal stripes on placeholder */
+      .card-media::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 8px,
+          rgba(0, 0, 0, 0.03) 8px,
+          rgba(0, 0, 0, 0.03) 9px
+        );
+      }
+
+      .card-body {
+        padding: 0.75rem 1rem 1rem;
+      }
+      .card-title {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+      .card-meta {
+        font-size: 0.72rem;
+        color: var(--sepia);
+        opacity: 0.8;
+      }
+
+      /* video indicator */
+      .card-media .play-icon {
+        position: absolute;
+        bottom: 0.6rem;
+        right: 0.6rem;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .making-badge {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        background: rgba(26, 22, 18, 0.7);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+        pointer-events: none;
+      }
+
+      /* ── EMPTY STATE ───────────────────────────────────────────── */
+      .empty {
+        grid-column: 1/-1;
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--sepia);
+        opacity: 0.7;
+        font-size: 0.9rem;
+      }
+
+      /* ── FOOTER ────────────────────────────────────────────────── */
+      footer {
+        border-top: 1px solid rgba(139, 111, 71, 0.2);
+        padding: 2rem var(--gap);
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--sepia);
+        letter-spacing: 0.05em;
+      }
+
+      /* ── LIGHTBOX ──────────────────────────────────────────────── */
+      #lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: rgba(26, 22, 18, 0.85);
+        backdrop-filter: blur(6px);
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      #lightbox.open {
+        display: flex;
+      }
+      .lb-inner {
+        background: var(--cream);
+        border-radius: 10px;
+        max-width: 640px;
+        width: 100%;
+        overflow: hidden;
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
+        animation: scaleIn 0.25s ease;
+      }
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.94);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .lb-media {
+        aspect-ratio: 4/3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        color: var(--sepia);
+        background: #e8e2d6;
+        gap: 0.5rem;
+        max-height: 80vh;
+      }
+      .lb-info {
+        padding: 0.25rem 0.5rem;
+      }
+      .lb-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        margin-bottom: 0.3rem;
+      }
+      .lb-desc {
+        font-size: 0.85rem;
+        color: var(--sepia);
+      }
+      .lb-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--cream);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .lb-tabs {
+        display: flex;
+        border-bottom: 1px solid rgba(139, 111, 71, 0.2);
+      }
+      .lb-tab {
+        flex: 1;
+        padding: 0.7rem 1rem;
+        background: none;
+        border: none;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        cursor: pointer;
+        color: var(--sepia);
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+        margin-bottom: -1px;
+      }
+      .lb-tab.active {
+        color: var(--ink);
+        border-bottom-color: var(--gold);
+        font-weight: 500;
+      }
+      .lb-tabs.hidden {
+        display: none;
+      }
+
+      /* ── RESPONSIVE ────────────────────────────────────────────── */
+      @media (max-width: 600px) {
+        .nav-inner {
+          gap: 0;
+        }
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.75rem;
+        }
+        .header-logo {
+          position: relative;
+          top: auto;
+          right: auto;
+          display: block;
+          margin: 0 auto 0.75rem;
+          width: 70px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ───────────── HEADER ───────────── -->
+    <header>
+      <div class="header-deco"></div>
+      <img
+        src="dth_logo_2026_1.png"
+        alt="Digitális Témahét 2026"
+        class="header-logo"
+      />
+      <p class="eyebrow">Digitális témahét · Iskolai projekt</p>
+      <h1><em>Ugyanaz</em> Másképp?</h1>
+      <p class="subtitle">
+        Generációk a digitális korban — alkotások gyűjteménye
+      </p>
+      <div class="rule"><span></span><i></i><i></i><i></i><span></span></div>
+    </header>
+
+    <!-- ───────────── NAV ───────────── -->
+    <nav>
+      <div class="nav-inner">
+        <!-- ROW 1: életterületek -->
+        <div class="nav-row" id="topicRow">
+          <span class="nav-label">Téma:</span>
+          <button class="nav-btn topic-btn active" data-topic="osszes">
+            Összes
+          </button>
+          <button class="nav-btn topic-btn" data-topic="munka">💼 Munka</button>
+          <button class="nav-btn topic-btn" data-topic="tanulas">
+            📚 Tanulás
+          </button>
+          <button class="nav-btn topic-btn" data-topic="kapcsolattartas">
+            💬 Kapcsolattartás
+          </button>
+          <button class="nav-btn topic-btn" data-topic="ugyintezes">
+            🏛 Ügyintézés
+          </button>
+          <button class="nav-btn topic-btn" data-topic="szórakozas">
+            🎭 Szórakozás
+          </button>
+          <button class="nav-btn topic-btn" data-topic="informacioszerzes">
+            🔍 Információszerzés
+          </button>
+          <button class="nav-btn topic-btn" data-topic="vasarlas">
+            🛒 Vásárlás
+          </button>
+          <button class="nav-btn topic-btn" data-topic="egeszseg">
+            ❤️ Egészség
+          </button>
+        </div>
+        <!-- ROW 2: korszak -->
+        <div class="nav-row" id="eraRow">
+          <span class="nav-label">Korszak:</span>
+          <button class="nav-btn era-btn active" data-era="osszes-era">
+            Mindegyik
+          </button>
+          <button class="nav-btn era-btn" data-era="regen">🕰 Régen</button>
+          <button class="nav-btn era-btn" data-era="most">📱 Most</button>
+          <button class="nav-btn era-btn" data-era="mindketto">
+            ⚖️ Régen &amp; Most
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ───────────── MAIN ───────────── -->
+    <main id="gallery">
+      <!-- JS renders content here -->
+    </main>
+
+    <!-- ───────────── LIGHTBOX ───────────── -->
+    <div id="lightbox">
+      <button class="lb-close" id="lbClose">✕</button>
+      <div class="lb-inner">
+        <!-- fülek – csak ha van "Hogyan készült?" -->
+        <div class="lb-tabs" id="lbTabs">
+          <button class="lb-tab active" data-tab="mu">Az alkotás</button>
+          <button class="lb-tab" data-tab="making">Hogyan készült?</button>
+        </div>
+
+        <!-- Az alkotás panel -->
+        <div class="lb-panel" id="panelMu">
+          <div class="lb-media" id="lbMedia"></div>
+          <div class="lb-info">
+            <div class="lb-title" id="lbTitle"></div>
+            <div class="lb-desc" id="lbDesc"></div>
+          </div>
+        </div>
+
+        <!-- Hogyan készült panel -->
+        <div class="lb-panel" id="panelMaking" style="display: none">
+          <video
+            id="lbMakingVideo"
+            controls
+            style="width: 100%; display: block"
+          >
+            A böngésződ nem támogatja a videólejátszást.
+          </video>
+          <div class="lb-info">
+            <div class="lb-title">Hogyan készült?</div>
+            <div class="lb-desc" id="lbMakingDesc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────── FOOTER ───────────── -->
+    <footer>
+      <p>
+        © Digitális Témahét · Iskolai projekt &nbsp;|&nbsp; „Ugyanaz Másképp? –
+        Generációk a Digitális Korban"
+      </p>
+    </footer>
+
+    <!-- ───────────── SCRIPT ───────────── -->
+    <script>
+      /* ════════════════════════════════════════════════════════
+     ADAT – itt cseréld le a valódi alkotásokra!
+     Minden bejegyzésnek mezői:
+       id        – egyedi azonosító
+       topic     – életterület slug (l. nav data-topic)
+       era       – "regen" | "most" | "mindketto"
+       type      – "kep" | "video"
+       title     – cím
+       desc      – rövid leírás / alkotó neve
+  ════════════════════════════════════════════════════════ */
+      const works = [
+        // MUNKA
+        {
+          id: 1,
+          topic: "munka",
+          era: "regen",
+          type: "video",
+          title: "Az írógép kora",
+          desc: " SZESZI – videó",
+          src: "media/irodai_elet.mp4",
+          poster: "media/iroda_borito.jpg",
+          contributors: "közös",
+        },
+        {
+          id: 2,
+          topic: "munka",
+          era: "regen",
+          type: "video",
+          title: "Vasas munka",
+          desc: "10.A – videó",
+          src: "media/vasas_munka.mp4",
+          poster: "",
+          contributors: "???"
+        },  
+        {
+          id: 77,
+          topic: "munka",
+          era: "most",
+          type: "video",
+          title: "Technológia",
+          desc: "10.A – videó",
+          src: "media/technológia_ma.mp4",
+          poster: "",
+          contributors: "???"
+        },
+        {
+          id: 62,
+          topic: "munka",
+          era: "mindketto",
+          type: "kep",
+          title: "Számítógépek munkában",
+          desc: "11.A – kép",
+          src: "media/szamitogepek.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 65,
+          topic: "munka",
+          era: "mindketto",
+          type: "video",
+          title: "Számítógépek munkában",
+          desc: "11.A – videó",
+          src: "media/szamitogepek.mp4",
+          poster: "media/szamitogepek.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 63,
+          topic: "munka",
+          era: "mindketto",
+          type: "kep",
+          title: "A számítástechnika története",
+          desc: "11.A – kép",
+          src: "media/szamitastechnika.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 64,
+          topic: "munka",
+          era: "mindketto",
+          type: "video",
+          title: "Iroda régen és most",
+          desc: "11.A – Videó",
+          src: "media/videó a fejlődésről.mp4",
+          poster: "media/fejlodes.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 70,
+          topic: "munka",
+          era: "mindketto",
+          type: "video",
+          title: "Munka a földeken 1.",
+          desc: "11.A – Videó",
+          src: "media/grok-mgmunka.mp4",
+          poster: "",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 67,
+          topic: "munka",
+          era: "mindketto",
+          type: "video",
+          title: "Munka a földeken 2.",
+          desc: "11.A – Videó",
+          src: "media/grok-munka.mp4",
+          poster: "",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 72,
+          topic: "munka",
+          era: "mindketto",
+          type: "kep",
+          title: "Munka számítógéppel",
+          desc: "12.A – Kép",
+          src: "media/szamitogep.jpg",          
+          contributors: "Kiss Dzsenifer, Barna János Lőrinc"
+        },
+        {
+          id: 73,
+          topic: "munka",
+          era: "mindketto",
+          type: "kep",
+          title: "Eszközeink a munkához",
+          desc: "12.A – Kép",
+          src: "media/eszközeink.jpg",          
+          contributors: "Kiss Dzsenifer, Barna János Lőrinc"
+        },
+        {
+          id: 74,
+          topic: "munka",
+          era: "mindketto",
+          type: "video",
+          title: "A számítógép átalakulása",
+          desc: "12.A – Videó",
+          src: "media/valtozas.mp4",     
+          poster: "media/valtozas.jpg",     
+          contributors: "Kiss Dzsenifer, Barna János Lőrinc"
+        },
+        {
+          id: 5,
+          topic: "munka",
+          era: "mindketto",
+          type: "video",
+          title: "A munka világa régen és ma",
+          desc: "10.A – kép",
+          src: "media/A_munka_világa__Régen_és_ma.mp4",
+          poster: "media/regenma.jpg",
+          contributors: "Kovács Péter, Csatári Máté, Bakó Bence József",
+        },
+
+        // TANULÁS
+
+        {
+          id: 7,
+          topic: "tanulas",
+          era: "regen",
+          type: "kep",
+          title: "Könyvtár régen",
+          desc: "SZESZI – kép",
+          src: "media/konyvtar.png",
+          contributors: "közös"
+        },
+        {
+          id: 59,
+          topic: "tanulas",
+          era: "regen",
+          type: "video",
+          title: "Osztályterem régen",
+          desc: "SZESZI – videó",
+          src: "media/grok-video-osztalyterem.mp4",
+          poster: "media/osztalyterem.jpg",
+          contributors: "közös",
+        },
+        {
+          id: 8,
+          topic: "tanulas",
+          era: "most",
+          type: "kep",
+          title: "E-learning",
+          src: "media/elearning.png",
+          desc: "SZESZI – kép",
+          contributors: "közös",
+        },
+        {
+          id: 9,
+          topic: "tanulas",
+          era: "most",
+          type: "video",
+          title: "Kréta Elektronikus Osztálynapló",
+          desc: "10.A – videó",
+          src: "media/kreta_atlagok.mp4",
+          poster: "media/kreta.jpg",
+          contributors: "Kovács Péter, Csatári Máté, Bakó Bence József",
+        },
+        {
+          id: 6,
+          topic: "tanulas",
+          era: "mindketto",
+          type: "video",
+          title: "Krétás tábla - digitális tábla",
+          desc: "11.A – videó",
+          src: "media/grok_tabla.mp4",
+          poster: "media/tabla.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 10,
+          topic: "tanulas",
+          era: "mindketto",
+          type: "video",
+          title: "Tanulás – két világ",
+          desc: "10.A – videó",
+          src: "media/Tanulás_Régen_és_most.mp4",
+          poster: "media/Tanulás_Régen_és_most.jpg",
+          contributors: "Tusz Mónika, Elek Kristóf, Balog Zsombor Balázs",
+        },
+        {
+          id: 51,
+          topic: "tanulas",
+          era: "mindketto",
+          type: "kep",
+          title: "Egy képben a változás",
+          desc: "12.A – kép",
+          src: "media/ChatGPT_tanulas.jpg",
+          contributors: "Feke Gergő, Vida Dominik",
+        },
+        {
+          id: 52,
+          topic: "tanulas",
+          era: "mindketto",
+          type: "video",
+          title: "A tanulás átalakulása",
+          desc: "10.A – videó",
+          src: "media/tanulás.mp4",
+          poster: "media/tanulás.jpg",
+          contributors: "Kovács Péter, Csatári Máté, Bakó Bence József",
+        },
+
+        // KAPCSOLATTARTÁS
+        {
+          id: 76,
+          topic: "kapcsolattartas",
+          era: "regen",
+          type: "video",
+          title: "Postagalamb",
+          desc: "10A - videó",
+          src: "media/postagalamb.mp4",
+          poster: "",
+          contributors: "???",
+        },
+        {
+          id: 11,
+          topic: "kapcsolattartas",
+          era: "regen",
+          type: "video",
+          title: "Levélírás",
+          desc: "SZESZI - videó",
+          src: "media/level2.mp4",
+          poster: "media/level.png",
+          contributors: "közös",
+        },
+        {
+          id: 12,
+          topic: "kapcsolattartas",
+          era: "regen",
+          type: "kep",
+          title: "Telefonfülke",
+          desc: "SZESZI - kép",
+          src: "media/telefonfulke.jpg",
+          contributors: "közös",
+        },
+        {
+          id: 78,
+          topic: "kapcsolattartas",
+          era: "most",
+          type: "video",
+          title: "Üzenet",
+          desc: "10.A – videó",
+          src: "media/uzenet_ma.mp4",
+          poster: "",
+          contributors: "???"
+        },
+        {
+          id: 14,
+          topic: "kapcsolattartas",
+          era: "most",
+          type: "video",
+          title: "Videóhívás",
+          desc: "11.A – videó",
+          src: "media/Videóhívás.mp4",
+          poster: "media/videohivas.jpg",
+          contributors: ""
+        },
+        {
+          id: 13,
+          topic: "kapcsolattartas",
+          era: "mindketto",
+          type: "video",
+          title: "Üzenetküldés",
+          desc: "11.A – videó",
+          src: "media/uzenet.mp4",
+          poster: "",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 15,
+          topic: "kapcsolattartas",
+          era: "mindketto",
+          type: "video",
+          title: "A kommunikáció forradalma",
+          desc: "10.A – videó",
+          src: "media/A_Kommunikáció_Forradalma.mp4",
+          poster: "media/Kommunikáció_Forradalma.jpg",
+          contributors: "Baumann Dávid, Csentős József Endre, Hegedűs Patrik",
+        },
+        {
+          id: 16,
+          topic: "kapcsolattartas",
+          era: "mindketto",
+          type: "video",
+          title: "A digitális generációs szakadék",
+          desc: "10.A – videó",
+          src: "media/A_digitális_generációs_szakadék.mp4",
+          poster: "media/A_digitális_generációs_szakadék.jpg",
+          contributors: "Tusz Mónika, Elek Kristóf, Balog Zsombor Balázs",
+        },
+
+        // ÜGYINTÉZÉS
+        {
+          id: 17,
+          topic: "ugyintezes",
+          era: "regen",
+          type: "video",
+          title: "Hivatal, sor",
+          desc: " SZESZI – video",
+          src: "media/grok-video-hivatali-ugyintezes.mp4",
+          poster: "media/hivatal.jpg",
+          making: "media/making_hivatal.mp4",
+          contributors: "közös",
+        },
+        {
+          id: 18,
+          topic: "ugyintezes",
+          era: "regen",
+          type: "kep",
+          title: "Papíralapú iratok",
+          desc: "SZESZI – kép",
+          src: "media/iratok.png",
+          contributors: "közös"
+        },
+        {
+          id: 19,
+          topic: "ugyintezes",
+          era: "most",
+          type: "kep",
+          title: "E-ügyintézés",
+          desc: "SZESZI – kép",
+          src: "media/eugy.png",
+          contributors: "közös"
+        },
+
+
+        // SZÓRAKOZÁS
+        {
+          id: 22,
+          topic: "szórakozas",
+          era: "regen",
+          type: "video",
+          title: "Futball",
+          desc: "11.A – videó",
+          src: "media/foci.mp4",
+          poster: "media/foci.jpg",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 23,
+          topic: "szórakozas",
+          era: "regen",
+          type: "video",
+          title: "A bakelit lemezek kora",
+          desc: "11.A – videó",
+          src: "media/lemezjatszo.mp4",
+          poster: "media/lemezjatszo.jpg",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 24,
+          topic: "szórakozas",
+          era: "regen",
+          type: "video",
+          title: "Gaming és közösség",
+          desc: "11.A – videó",
+          src: "media/gaming és közösség.mp4",
+          poster: "media/gaming.jpg",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 75,
+          topic: "szórakozas",
+          era: "most",
+          type: "video",
+          title: "Koncert",
+          desc: "10.A – videó",
+          src: "media/koncert.mp4",
+          poster: "media/koncert.jpg",
+          contributors: "???",
+        },   
+        {
+          id: 54,
+          topic: "szórakozas",
+          era: "most",
+          type: "video",
+          title: "Short videó - Természet",
+          desc: "11.A – videó",
+          src: "media/termeszet.mp4",
+          poster: "media/termeszet.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 55,
+          topic: "szórakozas",
+          era: "most",
+          type: "video",
+          title: "Short videó - Red Bull",
+          desc: "10.A – videó",
+          src: "media/redbull.mov",
+          poster: "media/redbull.jpg",
+          contributors: "Tusz Mónika, Elek Kristóf, Balog Zsombor Balázs",
+        },
+        {
+          id: 56,
+          topic: "szórakozas",
+          era: "most",
+          type: "video",
+          title: "Short videó - Cobra Kai",
+          desc: "11.A – videó",
+          src: "media/att.5p.mp4",
+          poster: "media/att.5p.jpg",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 57,
+          topic: "szórakozas",
+          era: "most",
+          type: "video",
+          title: "Short videó - Séfek séfe",
+          desc: "10.A – videó",
+          src: "media/video.mp4",
+          poster: "media/video.jpg",
+          contributors: "Kovács Péter, Csatári Máté, Bakó Bence József",
+        },
+        {
+          id: 58,
+          topic: "szórakozas",
+          era: "most",
+          type: "video",
+          title: "A szláv mémek valódi története",
+          desc: "10.A – videó",
+          src: "media/A_szláv_mémek_valódi_története.mp4",
+          poster: "media/A_szláv_mémek_valódi_története.jpg",
+          contributors: "Kovács Péter, Csatári Máté, Bakó Bence József",
+        },
+        {
+          id: 61,
+          topic: "szórakozas",
+          era: "mindketto",
+          type: "video",
+          title: "Gyerekek játéka",
+          desc: "11.A – videó",
+          src: "media/jatekok.mp4",
+          poster: "media/jatekok.jpg",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 53,
+          topic: "szórakozas",
+          era: "mindketto",
+          type: "video",
+          title: "Számítógépes játékok változása",
+          desc: "11.A – videó",
+          src: "media/games.mp4",
+          poster: "media/games.jpg",
+          contributors: "Pál Sándor, Kerekes Imre, Balog Dávid, Sápi Roland",
+        },
+        {
+          id: 26,
+          topic: "szórakozas",
+          era: "mindketto",
+          type: "video",
+          title: "Szabadidő – két kor",
+          desc: "10.A – videó",
+          src: "media/Szórakozás_Régen_és_most.mp4",
+          poster: "media/Szórakozás_Régen_és_most.jpg",
+          contributors: "Tusz Mónika, Elek Kristóf, Balog Zsombor Balázs",
+        },
+        {
+          id: 66,
+          topic: "szórakozas",
+          era: "mindketto",
+          type: "video",
+          title: "Bál régen - buli most",
+          desc: "11.A – videó",
+          src: "media/buli.mp4",
+          poster: "media/buli.jpg",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 69,
+          topic: "szórakozas",
+          era: "mindketto",
+          type: "video",
+          title: "Zeneszerzés régen és most",
+          desc: "11.A – videó",
+          src: "media/grok-zene.mp4",
+          poster: "",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+
+        // INFORMÁCIÓSZERZÉS
+        {
+          id: 27,
+          topic: "informacioszerzes",
+          era: "regen",
+          type: "kep",
+          title: "Napilap",
+          desc: "SZESZI – kép",
+          src: "media/napilap.png",
+          contributors: "közös",
+        },
+        {
+          id: 28,
+          topic: "informacioszerzes",
+          era: "regen",
+          type: "kep",
+          title: "Enciklopédia",
+          desc: "SZESZI – kép",
+          src: "media/enciklopedia.png",
+          contributors: "közös",
+        },
+        {
+          id: 29,
+          topic: "informacioszerzes",
+          era: "most",
+          type: "kep",
+          title: "Google keresés",
+          desc: "SZESZI – kép",
+          src: "media/google.png",
+          contributors: "közös",
+        },    
+        {
+          id: 71,
+          topic: "informacioszerzes",
+          era: "mindketto",
+          type: "video",
+          title: "Könyvek",
+          desc: "11.A – videó",
+          src: "media/konyv.mp4",
+          poster: "",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 68,
+          topic: "informacioszerzes",
+          era: "mindketto",
+          type: "kep",
+          title: "Belépés az ismeretlenbe",
+          desc: "11.A – kép",
+          src: "media/konyvtar.jpg",
+          making: "media/konyvtar_making.mp4",
+          contributors: "Németh Klaudia, Kis Zétény, Tóth Milán",
+        },
+        {
+          id: 31,
+          topic: "informacioszerzes",
+          era: "mindketto",
+          type: "video",
+          title: "Az információszerzés változása",
+          desc: "SZESZI - video",
+          src: "media/informacioszerzes_valtozasa.mp4",
+          poster: "media/inf_szerzes.jpg",
+          making: "media/making_informacioszerzes.mp4",
+          contributors: "közös",
+        },
+
+        // VÁSÁRLÁS
+        {
+          id: 32,
+          topic: "vasarlas",
+          era: "mindketto",
+          type: "kep",
+          title: "Mérleg",
+          desc: "12.A – kép",
+          src: "media/merleg.jpg",
+          contributors: "???",
+        },
+        {
+          id: 33,
+          topic: "vasarlas",
+          era: "mindketto",
+          type: "kep",
+          title: "Sarki bolt",
+          desc: "12.A – kép",
+          src: "media/sarki_bolt.jpg",
+          contributors: "???"
+        },
+        {
+          id: 34,
+          topic: "vasarlas",
+          era: "mindketto",
+          type: "video",
+          title: "Bevásárlás",
+          desc: "12.A – videó",
+          src: "media/Bevásárlás_Régen_és_Ma.mp4",
+          poster: "",
+          contributors: "???"
+        },
+        {
+          id: 35,
+          topic: "vasarlas",
+          era: "mindketto",
+          type: "video",
+          title: "Fizetés régen és most",
+          desc: "12.A – videó",
+          src: "media/Modern_fizetési_módok_videója.mp4",
+          poster: "",
+          contributors: "???"
+        },
+        {
+          id: 36,
+          topic: "vasarlas",
+          era: "mindketto",
+          type: "kep",
+          title: "Kosár – fizikai vs. digitális",
+          desc: "Szeszi – kép",
+          src: "media/kosar.png",
+          contributors: "közös"
+        },
+
+        // EGÉSZSÉG
+         {
+          id: 40,
+          topic: "egeszseg",
+          era: "most",
+          type: "kep",
+          title: "Okosóra",
+          desc: "SZESZI – kép",
+          src: "media/okosora.png",
+          contributors: "közös"
+        },
+           {
+          id: 41,
+          topic: "egeszseg",
+          era: "most",
+          type: "kep",
+          title: "Fitnesz app",
+          desc: "SZESZI – kép",
+          src: "media/fitnesz.png",
+          contributors: "közös"
+        },
+        {
+          id: 37,
+          topic: "egeszseg",
+          era: "mindketto",
+          type: "kep",
+          title: "A háziorvos",
+          desc: "12.A – kép",
+          src: "media/haziorvosnal.jpg",
+          contributors: "???"
+        },
+        {
+          id: 38,
+          topic: "egeszseg",
+          era: "mindketto",
+          type: "kep",
+          title: "Lábadozás otthon",
+          desc: "12.A – kép",
+          src: "media/betegagy.jpg",
+          contributors: "???"
+        },
+        {
+          id: 39,
+          topic: "egeszseg",
+          era: "mindketto",
+          type: "kep",
+          title: "Kórházban",
+          desc: "12.A – kép",
+          src: "media/korhaz.jpg",
+          contributors: "???"
+        }    
+       
+      ];
+
+      /* topic labels */
+      const topicLabels = {
+        munka: "Munka",
+        tanulas: "Tanulás",
+        kapcsolattartas: "Kapcsolattartás",
+        ugyintezes: "Mindennapi ügyintézés",
+        szórakozas: "Szórakozás",
+        informacioszerzes: "Információszerzés",
+        vasarlas: "Vásárlás",
+        egeszseg: "Egészség",
+      };
+      const eraLabels = {
+        regen: "Régen",
+        most: "Most",
+        mindketto: "Régen & Most",
+      };
+      const eraBadge = { regen: "regen", most: "most", mindketto: "mindketto" };
+
+      /* state */
+      let activeTopic = "osszes";
+      let activeEra = "osszes-era";
+
+      /* ── SVG icons ── */
+      const imgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>`;
+      const vidIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+
+      function buildCard(w) {
+        const eraText = eraLabels[w.era] || "";
+        const isVideo = w.type === "video";
+        const space = !w.src;
+        return `
+      <div class="card" data-era="${w.era}" data-id="${w.id}" tabindex="0" role="button" aria-label="${w.title}">
+        <div class="card-media" title="${w.contributors ? w.contributors : ""}">
+          
+          ${isVideo ? `<video src="${w.src}" poster="${w.poster}"></video>` : `<img src="${w.src}" alt="${w.title}"  />`}
+         
+          ${isVideo ? `<div class="play-icon">▶</div>` : ""}
+          ${w.making ? `<div class="making-badge">🎬 Hogyan készült?</div>` : ""}
+        </div>
+        <div class="card-body">
+          <div class="card-title">${w.title}</div>
+          <div class="card-meta">${eraText} · ${w.desc}</div>
+        </div>
+      </div>`;
+      }
+      // ${isVideo ? '<video src="' + w.src + '" poster="' + w.poster + '" title="'+ w.contributors +'"></video>' : '<img src="' + w.src + '" alt="' + w.title + '" title="'+ w.contributors +'" />'}
+      //   ${isVideo ? (space ? vidIcon : '<video src="' + w.src + '" controls poster="' + w.poster + '"></video>') : (space ? imgIcon : '<img src="' + w.src + '" alt="' + w.title + '">')}
+      //  <span>${isVideo ? 'Videó' : 'Kép'}</span>
+
+      function render() {
+        const gallery = document.getElementById("gallery");
+        gallery.innerHTML = "";
+
+        /* filter */
+        const filtered = works.filter((w) => {
+          const topicOk = activeTopic === "osszes" || w.topic === activeTopic;
+          const eraOk = activeEra === "osszes-era" || w.era === activeEra;
+          return topicOk && eraOk;
+        });
+
+        if (!filtered.length) {
+          gallery.innerHTML = `<p class="empty">Nincs megjeleníthető alkotás a kiválasztott szűrőkkel.</p>`;
+          return;
+        }
+
+        /* group by topic */
+        const groups = {};
+        filtered.forEach((w) => {
+          if (!groups[w.topic]) groups[w.topic] = [];
+          groups[w.topic].push(w);
+        });
+
+        /* section header */
+        const topicName =
+          activeTopic === "osszes"
+            ? "Összes alkotás"
+            : topicLabels[activeTopic];
+        let eraTag = "";
+        if (activeEra !== "osszes-era") {
+          const cls = eraBadge[activeEra];
+          eraTag = `<span class="era-badge ${cls}">${eraLabels[activeEra]}</span>`;
+        }
+        gallery.insertAdjacentHTML(
+          "beforeend",
+          `
+      <div class="section-header">
+        <span class="section-title">${topicName}</span>
+        ${eraTag}
+      </div>`,
+        );
+
+        /* render groups */
+        Object.entries(groups).forEach(([topic, items]) => {
+          const block = document.createElement("div");
+          block.className = "category-block";
+          block.innerHTML = `
+        <div class="category-label">${topicLabels[topic] || topic}</div>
+        <div class="grid">
+          ${items.map(buildCard).join("")}
+        </div>`;
+          gallery.appendChild(block);
+        });
+
+        /* card click → lightbox */
+        gallery.querySelectorAll(".card").forEach((el) => {
+          el.addEventListener("click", () => openLb(+el.dataset.id));
+          el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") openLb(+el.dataset.id);
+          });
+        });
+      }
+
+      function openLb(id) {
+        const w = works.find((x) => x.id === id);
+        if (!w) return;
+
+        // cím, leírás
+        document.getElementById("lbTitle").textContent = w.title;
+        document.getElementById("lbDesc").textContent =
+          `${topicLabels[w.topic]} · ${eraLabels[w.era]} · ${w.type === "video" ? "Videó" : "Kép"} — ${w.desc}`;
+
+        // alkotás media
+        const isVideo = w.type === "video";
+        document.getElementById("lbMedia").innerHTML = isVideo
+          ? `<video src="${w.src || ""}" controls style="width:100%;display:block;"></video>`
+          : `<img src="${w.src || ""}" alt="${w.title}" style="width:100%;display:block;">`;
+
+        // "Hogyan készült?" fül láthatósága
+        const tabs = document.getElementById("lbTabs");
+        if (w.making) {
+          tabs.classList.remove("hidden");
+          document.getElementById("lbMakingVideo").src = w.making;
+          document.getElementById("lbMakingDesc").textContent =
+            w.title + " – elkészítés folyamata";
+        } else {
+          tabs.classList.add("hidden");
+        }
+
+        // visszaállítás az első fülre
+        switchTab("mu");
+
+        document.getElementById("lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLb() {
+        document.getElementById("lightbox").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      function switchTab(tab) {
+        document
+          .querySelectorAll(".lb-tab")
+          .forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
+        document.getElementById("panelMu").style.display =
+          tab === "mu" ? "" : "none";
+        document.getElementById("panelMaking").style.display =
+          tab === "making" ? "" : "none";
+
+        // ha elhagyjuk a videó fület, pausoljuk a videót
+        if (tab !== "making") {
+          const v = document.getElementById("lbMakingVideo");
+          v.pause();
+        }
+      }
+
+      document
+        .querySelectorAll(".lb-tab")
+        .forEach((btn) =>
+          btn.addEventListener("click", () => switchTab(btn.dataset.tab)),
+        );
+
+      document.getElementById("lbClose").addEventListener("click", closeLb);
+      document.getElementById("lightbox").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("lightbox")) closeLb();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLb();
+      });
+
+      /* ── nav handlers ── */
+      document.querySelectorAll(".topic-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          activeTopic = btn.dataset.topic;
+          document
+            .querySelectorAll(".topic-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          render();
+        });
+      });
+      document.querySelectorAll(".era-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          activeEra = btn.dataset.era;
+          document
+            .querySelectorAll(".era-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          render();
+        });
+      });
+
+      /* initial render */
+      render();
+    </script>
+  </body>
+</html>
